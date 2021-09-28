@@ -1,5 +1,8 @@
 const app = require('./app');
 
-app.listen(8000, () => {
-  console.log(8000);
+const config = require('./app/config');
+require('./app/database');
+
+app.listen(config.APP_PORT, () => {
+  console.log(`项目在${config.APP_PORT}端口开启`);
 });
