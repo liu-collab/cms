@@ -1,4 +1,4 @@
-# nodejs
+# nodejs-cms
 
 ## Project setup
 
