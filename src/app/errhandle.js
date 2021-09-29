@@ -12,6 +12,14 @@ const errhandle = (error, ctx) => {
       status = 401;
       message = '用户名已经存在';
       break;
+    case errType.PASSWORD_IS_NOT_CORRECT:
+      status = 401;
+      message = '密码错误';
+      break;
+    case errType.USER_NAME_IS_NOT_EXISTS:
+      status = 401;
+      message = '用户名不存在';
+      break;
     default:
       status = 404;
       message = 'NOT FOUND';
