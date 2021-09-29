@@ -36,6 +36,32 @@ class UserService {
       console.log(error);
     }
   }
+  async deleteUserById(id) {
+    try {
+      const statement = `DELETE  FROM users WHERE id=?;`;
+      const result = await connection.execute(statement, [id]);
+      return result[0];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async changeUserById(id, user) {
+    const { name, realname, cellphone, departmentId, roleId } = user;
+
+    const statement = `UPDATE users SET 
+    name = ?,realname=?,
+    cellphone=?,departmentId=?,roleId=? WHERE id = ?`;
+    const result = await connection.execute(statement, [
+      name,
+      realname,
+      cellphone,
+      departmentId,
+      roleId,
+      id,
+    ]);
+
+    return result[0];
+  }
 }
 
 module.exports = new UserService();
