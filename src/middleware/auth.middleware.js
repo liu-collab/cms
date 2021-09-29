@@ -1,4 +1,5 @@
 const UserService = require('../service/user.service');
+const errType = require('../constans/errType');
 //验证用户是否已经注册
 
 const verifyuser = async (ctx, next) => {
@@ -7,16 +8,15 @@ const verifyuser = async (ctx, next) => {
 
   //2.判断用户信息是否为空
   if (!name || !password) {
-    ctx.body = '用户信息为空';
-    return;
+    const error = new Error(errType.USER_INFO_NOT_NULL);
+    return ctx.app.emit('error', error, ctx);
   }
   //3.判断用户是否已经注册
   const result = await UserService.getUserByName(name);
 
   if (result.length) {
-    //const error = new Error();
-    ctx.body = '用户名已经存在';
-    return;
+    const error = new Error(errType.USER_NAME_IS_EXISTS);
+    return ctx.app.emit('error', error, ctx);
   }
   await next();
 };
