@@ -1,5 +1,7 @@
 const UserService = require('../service/user.service');
 const errType = require('../constans/errType');
+const { PUBLIC_KEY } = require('../app/config');
+const jwt = require('jsonwebtoken');
 //验证用户是否已经注册
 const verifyuser = async (ctx, next) => {
   //1.获取用户信息
@@ -22,9 +24,34 @@ const verifyUserName = async (ctx, next) => {
     const error = new Error(errType.USER_NAME_IS_EXISTS);
     return ctx.app.emit('error', error, ctx);
   }
+  await next();
+};
+const verifyAuth = async (ctx, next) => {
+  //获取token
+
+  const authorization = ctx.headers.authorization;
+  //判断authorization是否为空
+  if (!authorization) {
+    const error = new Error(errType.TOKEN_IS_NOT_CORRECT);
+    return ctx.app.emit('error', error, ctx);
+  }
+  const token = authorization.replace('Bearer ', '');
+  //解析token
+  try {
+    const result = jwt.verify(token, PUBLIC_KEY, {
+      algorithms: ['RS256'],
+    });
+    ctx.user = result;
+  } catch (err) {
+    console.log(err);
+    const error = new Error(errType.PUBLIC_KEY_IS_NOT_CORRECT);
+    return ctx.app.emit('error', error, ctx);
+  }
+  await next();
 };
 
 module.exports = {
   verifyuser,
   verifyUserName,
+  verifyAuth,
 };

@@ -20,6 +20,14 @@ const errhandle = (error, ctx) => {
       status = 401;
       message = '用户名不存在';
       break;
+    case errType.TOKEN_IS_NOT_CORRECT:
+      status = 401;
+      message = '无效token~';
+      break;
+    case errType.PUBLIC_KEY_IS_NOT_CORRECT:
+      status = 401;
+      message = '公钥失效~';
+      break;
     default:
       status = 404;
       message = 'NOT FOUND';
