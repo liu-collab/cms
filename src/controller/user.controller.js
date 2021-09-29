@@ -5,7 +5,7 @@ class UserController {
     try {
       //1.获取用户信息
       const user = ctx.request.body;
-      console.log(user);
+
       //2.创建用户
       const result = await userService.create(user);
 
