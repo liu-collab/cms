@@ -23,30 +23,23 @@ class DepartmentController {
       };
     }
   }
-  async remove(ctx, next) {
+  async change(ctx, next) {
     const code = 0;
-    const message = '删除成功';
+    const message = '修改部门成功';
+    const department = ctx.request.body;
     const { id } = ctx.params;
-    const result = await DepartmentService.remove(id);
-    const { affectedRows } = result;
-    if (affectedRows) {
-      ctx.body = {
-        code,
-        message,
-      };
+    try {
+      const result = await DepartmentService.change(id, department);
+      const { affectedRows } = result;
+      if (affectedRows) {
+        ctx.body = {
+          code,
+          message,
+        };
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }
-  async detail(ctx, next) {
-    const code = 0;
-    const { id } = ctx.params;
-    const result = await DepartmentService.detail(id);
-    const data = {
-      ...result,
-    };
-    ctx.body = {
-      code,
-      data,
-    };
   }
 }
 

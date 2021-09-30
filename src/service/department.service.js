@@ -17,14 +17,20 @@ class DepartmentService {
     }
   }
 
-  async detail(id) {
+  async change(id, department) {
     try {
-      const statement = `SELECT * FROM department WHERE id=?;`;
-      const [result] = await connection.execute(statement, [id]);
+      const { name, parentId = null, leader = null } = department;
+      const statement = `UPDATE department SET 
+      name = ?,parentId=?,
+      leader=? WHERE id = ?`;
+      const result = await connection.execute(statement, [
+        name,
+        parentId,
+        leader,
+        id,
+      ]);
       return result[0];
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 }
 

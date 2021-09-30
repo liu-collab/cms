@@ -53,7 +53,7 @@ class UserService {
         roleId,
         id,
       ]);
-      console.log(result);
+
       return result[0];
     } catch (error) {
       console.log(error);

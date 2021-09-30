@@ -1,6 +1,6 @@
 const VerifyName = require('../service/verify.name');
 const errType = require('../constans/errType');
-const verifyNameRepeat = (tablename) => async (ctx, next) => {
+const verifyUserNameRepeat = (tablename) => async (ctx, next) => {
   const { name } = ctx.request.body;
 
   try {
@@ -26,7 +26,18 @@ const verifyNameRepeat = (tablename) => async (ctx, next) => {
     console.log(error);
   }
 };
+const verifyNameRepeat = (tablename) => async (ctx, next) => {
+  const { name } = ctx.request.body;
+  const result = await VerifyName.verify(tablename, name);
+
+  if (result) {
+    const error = new Error(errType.NAME_EXISTS);
+    return ctx.app.emit('error', error, ctx);
+  }
+  await next();
+};
 
 module.exports = {
   verifyNameRepeat,
+  verifyUserNameRepeat,
 };
