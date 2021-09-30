@@ -51,5 +51,37 @@ class UserController {
       };
     }
   }
+  //查找单个用户
+  async detail(ctx, next) {
+    const code = 0;
+
+    const { id } = ctx.params;
+    const result = await userService.detail(id);
+    const data = {
+      ...result,
+    };
+    ctx.body = {
+      code,
+      data,
+    };
+  }
+  //查找用户列表
+  async list(ctx, next) {
+    const code = 400;
+    const list = [];
+
+    const { offset, size } = ctx.query;
+
+    const result = await userService.list(offset, size);
+    list.push(...result);
+
+    const data = {
+      list,
+    };
+    ctx.body = {
+      code,
+      data,
+    };
+  }
 }
 module.exports = new UserController();

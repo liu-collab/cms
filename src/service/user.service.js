@@ -67,6 +67,26 @@ class UserService {
       console.log(error);
     }
   }
+  //查找用户
+  async detail(id) {
+    try {
+      const statement = ` SELECT * FROM users WHERE id = ?; `;
+      const [result] = await connection.execute(statement, [id]);
+      return result[0];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async list(offset, size) {
+    try {
+      const statement = `SELECT * FROM users LIMIT ? ,?;`;
+      const [result] = await connection.execute(statement, [offset, size]);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = new UserService();
