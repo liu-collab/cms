@@ -1,16 +1,25 @@
 const LookupAndDeleteService = require('../service/lookupAndDelete.service');
-
+const UserService = require('../service/user.service');
+//查询列表
 const list = (tablename) => async (ctx, next) => {
   const code = 0;
   const list = [];
+  const { offset, size } = ctx.query;
   try {
-    const { offset, size } = ctx.query;
-    const result = await LookupAndDeleteService.list(offset, size, tablename);
     const totalCount = await LookupAndDeleteService.listCount(
       offset,
       size,
       tablename
     );
+    switch (tablename) {
+      case 'users':
+        result = await UserService.list(offset, size);
+        break;
+      default:
+        result = await LookupAndDeleteService.list(offset, size, tablename);
+        break;
+    }
+
     list.push(...result);
     const data = {
       list,
@@ -24,6 +33,7 @@ const list = (tablename) => async (ctx, next) => {
     console.log(error);
   }
 };
+//删除
 const remove = (tablename) => async (ctx, next) => {
   const code = 0;
   const message = '删除成功';
@@ -37,6 +47,7 @@ const remove = (tablename) => async (ctx, next) => {
     };
   }
 };
+//查询单个
 const detail = (tablename) => async (ctx, next) => {
   const code = 0;
   try {
