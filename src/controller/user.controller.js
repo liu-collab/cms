@@ -67,7 +67,7 @@ class UserController {
   }
   //查找用户列表
   async list(ctx, next) {
-    const code = 400;
+    const code = 0;
     const list = [];
 
     const { offset, size } = ctx.query;

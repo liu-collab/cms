@@ -16,6 +16,16 @@ class DepartmentService {
       console.log(error);
     }
   }
+
+  async detail(id) {
+    try {
+      const statement = `SELECT * FROM department WHERE id=?;`;
+      const [result] = await connection.execute(statement, [id]);
+      return result[0];
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = new DepartmentService();
