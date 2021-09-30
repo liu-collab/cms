@@ -79,10 +79,22 @@ class UserService {
   }
   async list(offset, size) {
     try {
-      const statement = `SELECT * FROM users LIMIT ? ,?;`;
+      const statement = `SELECT 
+      u.id id ,u.name name ,u.createAt createAt , u.updateAt updateAt,u.realname realname ,
+      u.cellphone cellphone ,u.departmentId  departmentId ,u.enable enable , u.roleId roleId
+      FROM users u 
+      LIMIT ? ,?;`;
       const [result] = await connection.execute(statement, [offset, size]);
-
       return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async listCount(offset, size) {
+    try {
+      const statement = `SELECT COUNT(1) count FROM users 	LIMIT ? ,?;`;
+      const [count] = await connection.execute(statement, [offset, size]);
+      return count[0].count;
     } catch (error) {
       console.log(error);
     }

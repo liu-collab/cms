@@ -73,10 +73,12 @@ class UserController {
     const { offset, size } = ctx.query;
 
     const result = await userService.list(offset, size);
+    const totalCount = await userService.listCount(offset, size);
     list.push(...result);
 
     const data = {
       list,
+      totalCount,
     };
     ctx.body = {
       code,
