@@ -22,11 +22,11 @@ const errhandle = (error, ctx) => {
       break;
     case errType.TOKEN_IS_NOT_CORRECT:
       status = 401;
-      message = '无效token~';
+      message = '未登录~';
       break;
     case errType.PUBLIC_KEY_IS_NOT_CORRECT:
       status = 401;
-      message = '公钥失效~';
+      message = '无效token~';
       break;
     default:
       status = 404;

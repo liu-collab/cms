@@ -31,6 +31,7 @@ class UserService {
       const statement = `SELECT * FROM users WHERE name = ?;`;
 
       const result = await connection.execute(statement, [name]);
+
       return result[0];
     } catch (error) {
       console.log(error);
@@ -51,16 +52,20 @@ class UserService {
     const statement = `UPDATE users SET 
     name = ?,realname=?,
     cellphone=?,departmentId=?,roleId=? WHERE id = ?`;
-    const result = await connection.execute(statement, [
-      name,
-      realname,
-      cellphone,
-      departmentId,
-      roleId,
-      id,
-    ]);
-
-    return result[0];
+    try {
+      const result = await connection.execute(statement, [
+        name,
+        realname,
+        cellphone,
+        departmentId,
+        roleId,
+        id,
+      ]);
+      console.log(result);
+      return result[0];
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

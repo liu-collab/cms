@@ -9,9 +9,9 @@ const connection = mysql.createPool({
 });
 connection.getConnection((err, conn) => {
   if (err) {
-    console.log('连接错误', err);
+    console.log('数据库连接错误', err);
   } else {
-    console.log('连接成功');
+    console.log('数据库连接成功');
   }
 });
 module.exports = connection.promise();

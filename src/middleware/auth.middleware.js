@@ -21,8 +21,18 @@ const verifyUserName = async (ctx, next) => {
   const result = await UserService.getUserByName(name);
 
   if (result.length) {
-    const error = new Error(errType.USER_NAME_IS_EXISTS);
-    return ctx.app.emit('error', error, ctx);
+    //判断是否为修改用户信息
+    //没有修改姓名的情况下,其他数据修改也是可以的
+    if (ctx.params.id) {
+      if (parseInt(ctx.params.id) !== result[0].id) {
+        const error = new Error(errType.USER_NAME_IS_EXISTS);
+        return ctx.app.emit('error', error, ctx);
+      }
+    } else if (!ctx.params.id) {
+      //判断是否为创建用户,用户名不能重复
+      const error = new Error(errType.USER_NAME_IS_EXISTS);
+      return ctx.app.emit('error', error, ctx);
+    }
   }
   await next();
 };
